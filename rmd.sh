@@ -31,7 +31,6 @@ rmd_help() {
 rmd_make_hash_index() {
 	# echo "Current dir: " $(pwd)
 	for _arg_ in $@; do
-		echo "CWD: "$_parent_ "Arg: "$_arg_
 		if [[ -d $_arg_ ]]; then
 			cd $_arg_
 			rmd_make_hash_index $(ls)
@@ -55,11 +54,12 @@ rmd_info() {
 # If -c flag is enabled (RMD_CHOOSE_REMOVED == true) it asks to choose file, otherwise removes the 2nd one.
 rmd_remove() {
 	if [[ $RMD_REMOVE_DUPLICATE == true && $RMD_CHOOSE_REMOVED == true ]]; then
-		echo -e "${RMD_RED}Which file to remove? [1/2]${RMD_RESET_COLOR}"
+		echo -e "${RMD_RED}Which file to remove? [1/2 | s for skip]${RMD_RESET_COLOR}"
 		read -p "> " _option_
 		case $_option_ in
 			1) $(rm $1) ;;
 			2) $(rm $2) ;;
+			s) echo "Skipping...";;
 		esac
 	elif [[ $RMD_REMOVE_DUPLICATE == true ]]; then
 		$(rm $2)
