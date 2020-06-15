@@ -9,6 +9,7 @@ RMD_RED='\033[0;31m'
 RMD_YELLOW='\033[1;33m'
 RMD_LIGHT_BLUE='\033[1;34m'
 RMD_RESET_COLOR='\033[0m'
+RMD_BRED_ITALIC='\033[3;1;31m'
 
 declare -A checksums
 declare -A checksums_copy
@@ -54,12 +55,12 @@ rmd_info() {
 # If -c flag is enabled (RMD_CHOOSE_REMOVED == true) it asks to choose file, otherwise removes the 2nd one.
 rmd_remove() {
 	if [[ $RMD_REMOVE_DUPLICATE == true && $RMD_CHOOSE_REMOVED == true ]]; then
-		echo -e "${RMD_RED}Which file to remove? [1/2 | s for skip]${RMD_RESET_COLOR}"
+		echo -e "${RMD_RED}Which file to remove? [1/2]${RMD_BRED_ITALIC} (or press other key to skip)${RMD_RESET_COLOR}"
 		read -p "> " _option_
 		case $_option_ in
 			1) $(rm $1) ;;
 			2) $(rm $2) ;;
-			s) echo "Skipping...";;
+			*) echo "Skipping...";;
 		esac
 	elif [[ $RMD_REMOVE_DUPLICATE == true ]]; then
 		$(rm $2)
